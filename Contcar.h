@@ -9,13 +9,13 @@
 
 //constant for calculating bond length
 const double SiC_crystalline = 193.046;	//SiC bond density for the crystalline structure
-const double SiC_bond_length = 2.24;
-const double CH_bond_length = 1.2;
-const double SiH_bond_length = 1.6;
+const double SiC_bond_length = 2.24;	//maximum bond length between silicon and carbon atoms
+const double CH_bond_length = 1.2;	//maximum bond length between carbon and hydrogen atoms
+const double SiH_bond_length = 1.6;	//etc
 const double CC_bond_length = 1.9;
 const double SiSi_bond_length = 2.5;
 const double HH_bond_length = 1.0;
-const double mass_H = 1.00797;
+const double mass_H = 1.00797;		//mass of a hydrogen atom in amu, used in density calculation
 const double mass_C = 12.011;
 const double mass_Si = 28.0855;
 
@@ -25,33 +25,35 @@ class Contcar {
 public:
 
 //protected:
-	std::string system_name;
-	double lattice_constant = 0;	//self-explanatory
-	double a1[3], a2[3], a3[3];	//basis vectors
+	std::string system_name;		
+	double lattice_constant = 0;		//self-explanatory
+	double a1[3], a2[3], a3[3];		//basis vectors for the system
 	std::string coordinate_type;		//direct or cartesian
 	std::string types[3];			//array to store atom types
 	int amounts[3];				//parallel array to store amounts of each atom
-	void read_contcar();
+	void read_contcar();			//function that allows you to read the VASP CONTCAR file
+	
 	//atoms that are in the CONTCAR file
-	std::vector<Atom> carbons;
+	std::vector<Atom> carbons;		//the above read_contcar() function reads in the atoms and stores them in these vectors
 	std::vector<Atom> silicons;
 	std::vector<Atom> hydrogens;
 	
-	double volume = 0;			//volume of the cell in cm^3
+	double volume = 0;	//volume of the cell in cm^3
 	void calc_volume();	//function to calculate the volume
 	
 	double SiC = 0, CH = 0, SiH = 0, CC = 0, SiSi = 0, HH = 0;	//number of bonds
-	double percentSi = 0, percentC = 0, percentH = 0;			//atomic percentages
-	double density = 0;											//density in g/cm^3
+	double percentSi = 0, percentC = 0, percentH = 0;		//atomic percentages
+	double density = 0;						//density in g/cm^3
 
 	//bond densities.. for example, SiC is the bond density of Si-C bonds
 	//in bonds per cm^3
 	double SiC_p = 0, CH_p = 0, SiH_p = 0, CC_p = 0, SiSi_p = 0, HH_p = 0;
 
-	//"n" variables used to fit the data
+	//"n" variables used to describe the data
 	double n_SiC = 0, n_CH = 0, n_SiH = 0, n_CC = 0, n_SiSi = 0;
 	double band_gap;
 
+	//free energy of the system
 	double free_e = 0;
 
 	//vectors of cluster sizes
@@ -61,30 +63,29 @@ public:
 	int carbon_clusters[51];
 
 	//statistical info
-	double mean_SiSi = 0;
+	double mean_SiSi = 0;	//mean Si-Si bond length
 	double mean_CC = 0;
-	double MAD_SiSi = 0;
+	double MAD_SiSi = 0;	//mean average deviation of the SiSi bonds
 	double MAD_CC = 0;
-	double STD_SiSi = 0;
+	double STD_SiSi = 0;	//standard deviation of the SiSi bonds
 	double STD_CC = 0;
 
-	//stuff for bond length distributions
+	//stuff for bond length distributions. bond lengths are calculated and stored in these vectors
 	std::vector<double> sisi_bondlengths;
 	std::vector<double> cc_bondlengths;
 
-	//function to find distance between two atoms
-	double find_distance(Atom one, Atom two);
-	void get_bond_densities();
-	void get_atomic_percents();
-	void get_density();
-	void get_cluster_sizes();
-	void get_parameters();
-	void get_band_gap();
-	void write_silicon_cluster();
-	void write_carbon_cluster();
-	void get_free_energy();
-	void write_data();
-	void get_bond_lengths();
+	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
+	void get_bond_densities();			//calculates the bond densities in the system
+	void get_atomic_percents();			//calculates atomic percents
+	void get_density();				//calculates the desnity of the system
+	void get_cluster_sizes();			//calculates the cluster sizes of CC and SiSi bonds
+	void get_parameters();				//calculates parameters that describe the system
+	void get_band_gap();				//calculates the band gap, requires the VASP EIGENVAL file
+	void write_silicon_cluster();			//writes a POSCAR-like file that shows all of the SiSi bonds
+	void write_carbon_cluster();			//same as above but for CC
+	void get_free_energy();				//function that calculates the free energy of the system
+	void write_data();				//writes the data out to the header file
+	void get_bond_lengths();			//calculates the bond lengths
 };
 
 void Contcar::read_contcar() {
@@ -148,6 +149,7 @@ void Contcar::read_contcar() {
 		}
 	}
 
+	//reading in the third atom type
 	test = types[2][0];
 	for (int i = 0; i < amounts[2]; i++) {
 		fin >> x >> y >> z;
@@ -175,10 +177,16 @@ void Contcar::read_contcar() {
 	for (unsigned j = 0; j < silicons.size(); j++) { silicons[j].set_cartesian(a1, a2, a3); }
 	for (unsigned k = 0; k < hydrogens.size(); k++) { hydrogens[k].set_cartesian(a1, a2, a3); }
 }
+
+//function that calculates the volume. Uses the lattice vectors
+//and calculates the volume of the parallelepiped formed by them
 void Contcar::calc_volume() {
 	volume = a1[0] * (a2[1] * a3[2] - a2[2] * a3[1]) - a1[1] * (a2[0] * a3[2] - a2[2] * a3[0]) + a1[2] * (a2[0] * a3[1] - a2[1] * a3[0]);
 	volume = volume*pow(10.0, -24.0);
 }
+
+//function to find the minimum distance between two atoms
+//takes into account the periodic boundary conditions
 double Contcar::find_distance(Atom one, Atom two) {
 	long double distance, d;
 	long double x_periodic, y_periodic, z_periodic;
@@ -188,6 +196,11 @@ double Contcar::find_distance(Atom one, Atom two) {
 	long double tempz = one.get_zcartesian() - two.get_zcartesian();
 
 	distance = sqrt(pow(tempx, 2.0) + pow(tempy, 2.0) + pow(tempz, 2.0));
+	
+	//calculating the distance thus far has been pretty straightforward
+	//but now we calculate the length between all of the atoms
+	//considering the periodic boundary conditions and takes the minimum
+	//of the distance calculated above and the one calculated below
 
 	for (int f = -1; f < 2; f++) {
 		for (int g = -1; g < 2; g++) {
@@ -203,6 +216,12 @@ double Contcar::find_distance(Atom one, Atom two) {
 	}
 	return distance;
 }
+
+//function to get the bond densities
+//we use nested for-loops that loop over each type of atom
+//and calculates the distance between them in the process
+//the distance is compared to the maximum bond lengths
+//and then bonds are assigned to the ones that meet the criteria
 void Contcar::get_bond_densities() {
 
 	double distance = 0;
@@ -291,18 +310,24 @@ void Contcar::get_bond_densities() {
 	}
 	HH_p = HH * pow(10, -21) / volume;
 }
+
+//pretty straightforward function that calculates the atomic percentages
 void Contcar::get_atomic_percents() {
 	int total_atoms = silicons.size() + carbons.size() + hydrogens.size();
 	percentC = static_cast<double>(carbons.size()) / static_cast<double>(total_atoms);
 	percentH = static_cast<double>(hydrogens.size()) / static_cast<double>(total_atoms);
 	percentSi = static_cast<double>(silicons.size()) / static_cast<double>(total_atoms);
 }
+
+//fucntion that calculates the desnity
 void Contcar::get_density() {
 	double mass = 0;
 	mass = mass + (silicons.size()*mass_Si) + (carbons.size()*mass_C) + (hydrogens.size()*mass_H);
 	mass = mass*(1.66054 * pow(10.0, -24.0));
 	density = mass / volume;
 }
+
+//function that calculates
 void Contcar::get_cluster_sizes() {
 
 	//finding clusters of silicon atoms
