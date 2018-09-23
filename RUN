@@ -1,4 +1,13 @@
 #!/bin/csh
+#This is an example C shell script used to run the Nano-Pore-Analyzer 
+#For example, this C shell script is placed outside of the directory "Combined_Code" where
+#all of the source files, along with "DATA.csv", are placed.
+#The script copies the EIGENVAL, OSZICAR, and CONTCAR VASP files from
+#the directories of certain crystal models, and then runs the code using "./hello"
+#The data is written out to "DATA.csv" and the appropriate files are moved back to the
+#crystal's directory
+
+
 set S = "S"
 set C = "C"
 set i = 1
@@ -11,62 +20,6 @@ cd ./../../../../codes/Combined_Code
 ./hello
 mv CARBONS.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
 mv SILICON.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
-cd ..
-@ i++
-end
-
-set i = 1
-while($i < 18)
-cd ./../results/CC_models/76Mixed_bulk_CC/$i$C
-cp EIGENVAL ./../../../../codes/Combined_Code
-cp OSZICAR ./../../../../codes/Combined_Code
-cp CONTCAR ./../../../../codes/Combined_Code
-cd ./../../../../codes/Combined_Code
-./hello
-mv CARBONS.vasp ./../../results/CC_models/76Mixed_bulk_CC/$i$C
-mv SILICON.vasp ./../../results/CC_models/76Mixed_bulk_CC/$i$C
-cd ..
-@ i++
-end
-
-set i = 1
-while($i < 18)
-cd ./../results/SS_models/68HMixed_Si_surf/$i$S
-cp EIGENVAL ./../../../../codes/Combined_Code
-cp OSZICAR ./../../../../codes/Combined_Code
-cp CONTCAR ./../../../../codes/Combined_Code
-cd ./../../../../codes/Combined_Code
-./hello
-mv CARBONS.vasp ./../../results/SS_models/68HMixed_Si_surf/$i$S
-mv SILICON.vasp ./../../results/SS_models/68HMixed_Si_surf/$i$S
-cd ..
-@ i++
-end
-
-set i = 1
-while($i < 18)
-cd ./../results/SS_models/72CH_Si_surf/$i$S
-cp EIGENVAL ./../../../../codes/Combined_Code
-cp OSZICAR ./../../../../codes/Combined_Code
-cp CONTCAR ./../../../../codes/Combined_Code
-cd ./../../../../codes/Combined_Code
-./hello
-mv CARBONS.vasp ./../../results/SS_models/72CH_Si_surf/$i$S
-mv SILICON.vasp ./../../results/SS_models/72CH_Si_surf/$i$S
-cd ..
-@ i++
-end
-
-set i = 1
-while($i < 18)
-cd ./../results/SS_models/76HMixed_Si_bulk/$i$S
-cp EIGENVAL ./../../../../codes/Combined_Code
-cp OSZICAR ./../../../../codes/Combined_Code
-cp CONTCAR ./../../../../codes/Combined_Code
-cd ./../../../../codes/Combined_Code
-./hello
-mv CARBONS.vasp ./../../results/SS_models/76HMixed_Si_bulk/$i$S
-mv SILICON.vasp ./../../results/SS_models/76HMixed_Si_bulk/$i$S
 cd ..
 @ i++
 end
