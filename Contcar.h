@@ -59,8 +59,8 @@ public:
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
 	std::vector<int> carbon_cluster_sizes;
-	int silicon_clusters[51];
-	int carbon_clusters[51];
+	int silicon_clusters[11];
+	int carbon_clusters[11];
 
 	//statistical info
 	double mean_SiSi = 0;	//mean Si-Si bond length
@@ -337,12 +337,14 @@ void Contcar::get_cluster_sizes() {
 		}
 	}
 
-	for (int i = 0; i < 52; i++) {
+	for (int i = 0; i < 12; i++) {
 		silicon_clusters[i] = 0;
 	}
 
 	for (unsigned i = 0; i < silicon_cluster_sizes.size(); i++ ) {
 		int a = silicon_cluster_sizes[i];
+		if (a > 11)
+			a = 11;
 		silicon_clusters[a]++;
 	}
 
@@ -353,12 +355,14 @@ void Contcar::get_cluster_sizes() {
 		}
 	}
 
-	for (int i = 0; i < 52; i++) {
+	for (int i = 0; i < 12; i++) {
 		carbon_clusters[i] = 0;
 	}
 
 	for (unsigned i = 0; i < carbon_cluster_sizes.size(); i++) {
 		int b = carbon_cluster_sizes[i];
+		if (b > 11)
+			b = 11;
 		carbon_clusters[b]++;
 	}
 
@@ -457,15 +461,15 @@ void Contcar::write_data() {
 	os.open("DATA.csv", std::ios_base::app);
 	os << 0 << std::endl;
 	//writing out the top line of the file, ie all of the variable names and data names and such
-	os << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
-	for (unsigned i = 1; i < 51; i++) { os << i << "C, "; };
-	for (unsigned j = 1; j < 51; j++) { os << j << "Si, "; };
-	os << std::endl;
+	//os << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
+	//for (unsigned i = 1; i < 51; i++) { os << i << "C, "; };
+	//for (unsigned j = 1; j < 51; j++) { os << j << "Si, "; };
+	//os << std::endl;
 
 	//wrting out the actual numerical values
 	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC<< ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", ";
-	for (unsigned i = 1; i < 51; i++) { os << carbon_clusters[i] << ", "; };
-	for (unsigned j = 1; j < 51; j++) { os << silicon_clusters[j] << ", "; };
+	for (unsigned i = 1; i < 12; i++) { os << carbon_clusters[i] << ", "; };
+	for (unsigned j = 1; j < 12; j++) { os << silicon_clusters[j] << ", "; };
 
 }
 void Contcar::get_bond_lengths() {
@@ -485,13 +489,13 @@ void Contcar::get_bond_lengths() {
 		double sum = 0;
 		for (unsigned i = 0; i < sisi_bondlengths.size(); i++) {
 			mad_sisi.push_back(abs(sisi_bondlengths[i] - mean_SiSi));
-			sum += abs(sisi_bondlengths[i] - mean_SiSi);
+			sum = sum + abs(sisi_bondlengths[i] - mean_SiSi);
 		}
 		MAD_SiSi = sum / sisi_bondlengths.size();
 		sum = 0;
 
 		for (unsigned i = 0; i < sisi_bondlengths.size(); i++) {
-			sum += pow((sisi_bondlengths[i] - mean_SiSi), 2);
+			sum = sum + pow((sisi_bondlengths[i] - mean_SiSi), 2);
 		}
 		STD_SiSi = pow(sum / (sisi_bondlengths.size() - 1), 0.5);
 	}
