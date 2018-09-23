@@ -460,11 +460,6 @@ void Contcar::write_data() {
 	std::ofstream os;
 	os.open("DATA.csv", std::ios_base::app);
 	os << 0 << std::endl;
-	//writing out the top line of the file, ie all of the variable names and data names and such
-	//os << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
-	//for (unsigned i = 1; i < 51; i++) { os << i << "C, "; };
-	//for (unsigned j = 1; j < 51; j++) { os << j << "Si, "; };
-	//os << std::endl;
 
 	//wrting out the actual numerical values
 	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC<< ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", ";
@@ -472,6 +467,7 @@ void Contcar::write_data() {
 	for (unsigned j = 1; j < 12; j++) { os << silicon_clusters[j] << ", "; };
 
 }
+
 void Contcar::get_bond_lengths() {
 	//for the SiSi bonds
 	if (sisi_bondlengths.size() > 0) {
