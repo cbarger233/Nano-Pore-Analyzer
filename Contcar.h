@@ -65,7 +65,7 @@ public:
 	//statistical info
 	double mean_SiSi = 0;	//mean Si-Si bond length
 	double mean_CC = 0;
-	double MAD_SiSi = 0;	//mean average deviation of the SiSi bonds
+	double MAD_SiSi;	//mean average deviation of the SiSi bonds
 	double MAD_CC = 0;
 	double STD_SiSi = 0;	//standard deviation of the SiSi bonds
 	double STD_CC = 0;
@@ -481,11 +481,14 @@ void Contcar::get_bond_lengths() {
 				low = sisi_bondlengths[i];
 		}
 		mean_SiSi = total / sisi_bondlengths.size();
-		std::vector<double> mad_sisi;
+
 		double sum = 0;
+		double num = 0;
 		for (unsigned i = 0; i < sisi_bondlengths.size(); i++) {
-			mad_sisi.push_back(abs(sisi_bondlengths[i] - mean_SiSi));
-			sum = sum + abs(sisi_bondlengths[i] - mean_SiSi);
+		  num = sisi_bondlengths[i] - mean_SiSi;
+		  if(num < 0)
+		    num = num*(-1);
+		  sum += num;
 		}
 		MAD_SiSi = sum / sisi_bondlengths.size();
 		sum = 0;
@@ -513,10 +516,13 @@ void Contcar::get_bond_lengths() {
 		}
 		mean_CC = total / cc_bondlengths.size();
 		double sum = 0;
-		std::vector<double> mad_cc;
+		double num = 0;
 		for (unsigned i = 0; i < cc_bondlengths.size(); i++) {
-			mad_cc.push_back(abs(cc_bondlengths[i] - mean_CC));
-			sum += abs(cc_bondlengths[i] - mean_CC);
+		  num = cc_bondlengths[i] - mean_CC;
+		  if (num < 0) {
+		    num = num*(-1);
+		  }
+		  sum += num;
 		}
 		MAD_CC = sum / cc_bondlengths.size();
 		sum = 0;
