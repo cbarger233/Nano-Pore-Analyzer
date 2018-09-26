@@ -59,8 +59,8 @@ public:
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
 	std::vector<int> carbon_cluster_sizes;
-	int silicon_clusters[11];
-	int carbon_clusters[11];
+	int silicon_clusters[12];
+	int carbon_clusters[12];
 
 	//statistical info
 	double mean_SiSi = 0;	//mean Si-Si bond length
@@ -90,7 +90,7 @@ public:
 
 void Contcar::read_contcar() {
 	std::ifstream fin;
-	fin.open("CONTCAR.vasp");
+	fin.open("CONTCAR");
 	getline(fin, system_name);
 	fin >> lattice_constant;
 	fin >> a1[0] >> a1[1] >> a1[2];
