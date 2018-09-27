@@ -74,6 +74,7 @@ public:
 	std::vector<double> sisi_bondlengths;
 	std::vector<double> cc_bondlengths;
 
+	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
 	void get_bond_densities();			//calculates the bond densities in the system
 	void get_atomic_percents();			//calculates atomic percents
@@ -87,6 +88,23 @@ public:
 	void write_data();				//writes the data out to the header file
 	void get_bond_lengths();			//calculates the bond lengths
 };
+
+bool Contcar::check_files() {
+	bool ok = true;
+	std::ifstream fin;
+	fin.open("CONTCAR");
+	sid::ifstream in;
+	in.open("OSZICAR");
+	std::ifstream name;
+	name.open("NAME.txt");
+	std::ifstream eig;
+	eig.open("EIGENVAL");
+	if (!fin.is_open() || !in.is_open() || !name.is_open() || !eig.is_open()) {
+		ok = false;
+	}
+	return ok;
+}
+
 
 void Contcar::read_contcar() {
 	std::ifstream fin;
