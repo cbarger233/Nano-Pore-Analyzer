@@ -74,7 +74,9 @@ public:
 	std::vector<double> sisi_bondlengths;
 	std::vector<double> cc_bondlengths;
 
+	void get_name();                                //gets the name of the system
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
+	void write_header();				//writes the header file if one isnt already written
 	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
 	void get_bond_densities();			//calculates the bond densities in the system
 	void get_atomic_percents();			//calculates atomic percents
@@ -89,11 +91,17 @@ public:
 	void get_bond_lengths();			//calculates the bond lengths
 };
 
+void Contcar::get_name() {
+  std::ifstream fin;
+  fin.open("NAME.txt");
+  getline(fin, system_name);
+}
+
 bool Contcar::check_files() {
 	bool ok = true;
 	std::ifstream fin;
 	fin.open("CONTCAR");
-	sid::ifstream in;
+	std::ifstream in;
 	in.open("OSZICAR");
 	std::ifstream name;
 	name.open("NAME.txt");
@@ -105,11 +113,24 @@ bool Contcar::check_files() {
 	return ok;
 }
 
+void Contcar::write_header() {
+	std::ifstream fin;
+	fin.open("DATA.csv");
+	if (!fin.is_open()) {
+		std::ofstream fout;
+		fout.open("DATA.csv");
+		fout << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
+		for (unsigned i = 1; i < 12; i++) { fout << i << "C, "; };
+		for (unsigned j = 1; j < 12; j++) { fout << j << "Si, "; };
+	}
+}
+
 
 void Contcar::read_contcar() {
 	std::ifstream fin;
 	fin.open("CONTCAR");
-	getline(fin, system_name);
+	std::string d = "";
+	getline(fin, d);
 	fin >> lattice_constant;
 	fin >> a1[0] >> a1[1] >> a1[2];
 	fin >> a2[0] >> a2[1] >> a2[2];

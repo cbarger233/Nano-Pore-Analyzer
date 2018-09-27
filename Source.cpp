@@ -9,6 +9,8 @@ int main() {
 	Contcar C;
 	bool ok = C.check_files();
 	if (ok) {
+	  C.get_name();
+		C.write_header();
 		C.read_contcar();
 		C.calc_volume();
 		C.get_bond_densities();
@@ -25,7 +27,7 @@ int main() {
 	}
 	
 	else {
-		cout << "Failed to open file. Files necessary to run are CONTCAR, EIGENVAL, OSZICAR, and NAME.txt." << std::endl;
+	  std::cout << "Failed to open file. Files necessary to run are CONTCAR, EIGENVAL, OSZICAR, and NAME.txt." << std::endl;
 	}
 
 	return 0;

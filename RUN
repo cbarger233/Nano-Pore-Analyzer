@@ -11,19 +11,16 @@
 set S = "S"
 set C = "C"
 set i = 1
-set dir = $(pwd)
 while($i < 13)
-cd ./../results/CC_models/72Mixed_surf_CC/$i
-dir = $(pwd)
-echo $dir > NAME.txt
+cd ./../../results/CC_models/72Mixed_surf_CC/$i
+echo "$PWD" > NAME.txt
 cp NAME.txt ./../../../../codes/Nano-Pore-Analyzer
 cp EIGENVAL ./../../../../codes/Nano-Pore-Analyzer
 cp OSZICAR ./../../../../codes/Nano-Pore-Analyzer
 cp CONTCAR ./../../../../codes/Nano-Pore-Analyzer
 cd ./../../../../codes/Nano-Pore-Analyzer
-./pore
+./hello
 mv CARBONS.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
 mv SILICON.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
-cd ..
 @ i++
 end
