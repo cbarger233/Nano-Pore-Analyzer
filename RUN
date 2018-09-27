@@ -1,9 +1,9 @@
 #!/bin/csh
 #This is an example C shell script used to run the Nano-Pore-Analyzer 
-#For example, this C shell script is placed outside of the directory "Combined_Code" where
+#For example, this C shell script is placed outside of the directory "Nano-Pore-Analyzer" where
 #all of the source files, along with "DATA.csv", are placed.
-#The script copies the EIGENVAL, OSZICAR, and CONTCAR VASP files from
-#the directories of certain crystal models, and then runs the code using "./hello"
+#The script copies the EIGENVAL, OSZICAR, and CONTCAR VASP files along with NAME.txt from
+#the directories of certain crystal models, and then runs the code using "./pore"
 #The data is written out to "DATA.csv" and the appropriate files are moved back to the
 #crystal's directory
 
@@ -11,13 +11,17 @@
 set S = "S"
 set C = "C"
 set i = 1
+set dir = $(pwd)
 while($i < 13)
 cd ./../results/CC_models/72Mixed_surf_CC/$i
-cp EIGENVAL ./../../../../codes/Combined_Code/
-cp OSZICAR ./../../../../codes/Combined_Code
-cp CONTCAR ./../../../../codes/Combined_Code
-cd ./../../../../codes/Combined_Code
-./hello
+dir = $(pwd)
+echo $dir > NAME.txt
+cp NAME.txt ./../../../../codes/Nano-Pore-Analyzer
+cp EIGENVAL ./../../../../codes/Nano-Pore-Analyzer
+cp OSZICAR ./../../../../codes/Nano-Pore-Analyzer
+cp CONTCAR ./../../../../codes/Nano-Pore-Analyzer
+cd ./../../../../codes/Nano-Pore-Analyzer
+./pore
 mv CARBONS.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
 mv SILICON.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
 cd ..
