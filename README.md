@@ -11,3 +11,5 @@ to use: Compile the code using the make command
 
 output :  DATA.csv which includes columns for features = Band Gap, atomic density ratio values, atomic densities, etc
 
+script: RUN files allows one to run code for multiple systems and place results in one DATA.csv file
+
