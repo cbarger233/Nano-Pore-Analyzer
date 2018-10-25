@@ -7,6 +7,10 @@
 
 int main() {
 	Contcar C;
+	if (C.is_crystal()) {
+		C.read_contcar_crystal();
+		C.write_crystal_SiC();
+	}
 	bool ok = C.check_files();
 	if (ok) {
 	  C.get_name();
@@ -27,7 +31,7 @@ int main() {
 	}
 	
 	else {
-	  std::cout << "Failed to open file. Files necessary to run are CONTCAR, EIGENVAL, OSZICAR, and NAME.txt." << std::endl;
+	  std::cout << "Failed to open file. Files necessary to run are CONTCAR, EIGENVAL, OSZICAR, NAME.txt, and CRYSTAL.txt." << std::endl;
 	}
 
 	return 0;
