@@ -106,7 +106,7 @@ bool Contcar::is_crystal() {
 	
 	std::ifstream fin;
 	fin.open("IS_CRYSTAL.txt");
-	if (!fin.open())
+	if (!fin.is_open())
 		ok = false;
 	return ok;
 }
