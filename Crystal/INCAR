@@ -1,0 +1,40 @@
+SYSTEM = Silicon
+
+! Initialization flags
+ISTART = 0       ! 0=new, 1=continue
+ICHARG = 2       ! 1=file, 2=atomic, 11=fixed from file (nscf)
+
+! Electronic Loop Controls
+ENCUT  = 400     ! Plane-wave cutoff
+EDIFF  = 1E-6    ! stopping-criterion
+ALGO   = Fast    ! Controls diagonalization algorithm
+NELMIN = 2       ! Minimum number of steps
+NELM   = 120     ! Maximum number of steps
+LREAL = Auto  ! Real space project yes/no
+SYMPREC = .0001
+
+! Ionic Relaxation Controls
+NSW    = 200       ! Number of ionic steps
+IBRION = 2      ! Controls ionic algorithm: -1 = off, 2 = conj. grad., 1 = quasinewton
+ISIF   = 2       ! Controls how relaxation occurs: 2 = ions only, 3 = ions plus lattice vectors
+EDIFFG = -.01   ! Ionic convergence criterion. Positive is energy (eV), negative is force (eV/A)
+
+! Density of States and Integration Flags
+ISMEAR = 0       ! Method for determining partial occupancies/integration
+SIGMA = 0.05     ! Broadening ("smearing") width for Gaussian/Methfessel-Paxton
+!LORBIT = 11      ! DOSCAR and lm decomposed PROCAR file
+! EMIN/EMAX defualt to sensible values (min/max value for DOS)
+NEDOS  = 5000    ! Number of grid points in DOSCAR (density of states)
+
+! Output related flags
+LWAVE  = .FALSE.  ! write WAVECAR
+LCHARG = .FALSE.  ! write CHGCAR, CHG
+LVTOT  = .FALSE. ! write LOCPOT (full potential)
+LVHAR  = .FALSE. ! write LOCPOT (Hartree only)
+
+! Charge Density Mixing Flags
+! Currently set to linear mixing (usually best for 2D/surfaces)
+!AMIX     = 0.2
+!BMIX     = 0.0001
+!AMIX_MAG = 0.8
+!BMIX_MAG = 0.0001

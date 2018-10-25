@@ -1,0 +1,5 @@
+3^3 grid of points      Comment
+0                       Automatic generation
+Monkhorst               M=Monkhorst- Pack
+1 1 1                  grid
+0.0 0.0 0.0                 shift

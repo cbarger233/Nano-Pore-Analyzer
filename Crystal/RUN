@@ -1,0 +1,26 @@
+#PBS -l nodes=24
+#PBS -l walltime=18:00:00
+#PBS -j oe
+#PBS -A open
+# change the current working directory to the directory where
+# the input deck input.nw can be found
+cd $PBS_O_WORKDIR
+
+echo " "
+echo "Starting job on `hostname` at `date`"
+echo " "
+
+# First load the VASP5 module
+module load  intel/16.0.3
+
+module load impi/5.1.3
+
+module load vasp/5.4.1.05Feb16
+
+
+# Now let's start VASP using the complex version of vasp
+vasp_std  > outfile
+
+echo " "
+echo "Completing job on `hostname` at `date`"
+echo " "
