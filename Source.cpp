@@ -14,6 +14,7 @@ int main() {
 	bool ok = C.check_files();
 	if (ok) {
 	  C.get_name();
+		C.get_crystal();
 		C.write_header();
 		C.read_contcar();
 		C.calc_volume();
