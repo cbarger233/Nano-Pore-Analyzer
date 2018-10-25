@@ -59,13 +59,13 @@ public:
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
 	std::vector<int> carbon_cluster_sizes;
-	int silicon_clusters[12];
-	int carbon_clusters[12];
+	int silicon_clusters[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+	int carbon_clusters[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
 	//statistical info
 	double mean_SiSi = 0;	//mean Si-Si bond length
 	double mean_CC = 0;
-	double MAD_SiSi;	//mean average deviation of the SiSi bonds
+	double MAD_SiSi = 0;	//mean average deviation of the SiSi bonds
 	double MAD_CC = 0;
 	double STD_SiSi = 0;	//standard deviation of the SiSi bonds
 	double STD_CC = 0;
@@ -151,8 +151,8 @@ void Contcar::read_contcar_crystal() {
 	fin >> a1[0] >> a1[1] >> a1[2];
 	fin >> a2[0] >> a2[1] >> a2[2];
 	fin >> a3[0] >> a3[1] >> a3[2];
-	fin >> types[0] >> types[1] >> types[2];
-	fin >> amounts[0] >> amounts[1] >> amounts[2];
+	fin >> types[0] >> types[1];
+	fin >> amounts[0] >> amounts[1];
 	fin >> coordinate_type;
 
 	Atom temp;
@@ -229,7 +229,7 @@ void Contcar::read_contcar_crystal() {
 }
 
 
-void Contcar write_crystal_SiC() {
+void Contcar::write_crystal_SiC() {
 	std::ofstream fout;
 	fout.open("CRYSTAL.txt");
 	fout << SiC_p;
