@@ -120,7 +120,9 @@ bool Contcar::check_files() {
 	name.open("NAME.txt");
 	std::ifstream eig;
 	eig.open("EIGENVAL");
-	if (!fin.is_open() || !in.is_open() || !name.is_open() || !eig.is_open()) {
+	std::ifstream cry;
+	cry.open("CRYSTAL.txt");
+	if (!fin.is_open() || !in.is_open() || !name.is_open() || !eig.is_open() || !cry.is_open()) {
 		ok = false;
 	}
 	return ok;
