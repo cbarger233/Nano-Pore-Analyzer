@@ -77,6 +77,7 @@ public:
 	bool is_crystal();				//checks to see if the system is the crystal
 	void read_contcar_crystal();			//reads the crystal's contcar
 	void write_crystal_SiC();			//writes out the crystal SiC density to a file
+	void get_crystal();				//get the SiC bond density from the CRYSTAL.txt file
 	void get_name();                                //gets the name of the system
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	void write_header();				//writes the header file if one isnt already written
@@ -232,6 +233,13 @@ void Contcar write_crystal_SiC() {
 	std::ofstream fout;
 	fout.open("CRYSTAL.txt");
 	fout << SiC_p;
+}
+
+
+void Contcar::get_crystal() {
+	std::ifstream fin;
+	fin.open("CRYSTAL.txt");
+	fin >> SiC_crystalline;
 }
 
 
