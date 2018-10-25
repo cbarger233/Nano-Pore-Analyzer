@@ -8,7 +8,6 @@
 #define Contcar_H
 
 //constant for calculating bond length
-const double SiC_crystalline = 193.046;	//SiC bond density for the crystalline structure
 const double SiC_bond_length = 2.24;	//maximum bond length between silicon and carbon atoms
 const double CH_bond_length = 1.2;	//maximum bond length between carbon and hydrogen atoms
 const double SiH_bond_length = 1.6;	//etc
@@ -25,6 +24,7 @@ class Contcar {
 public:
 
 //protected:
+	double SiC_crystalline = 0;		//SiC bond density for the crystalline structure to be read in by get_crystal();
 	std::string system_name;		
 	double lattice_constant = 0;		//self-explanatory
 	double a1[3], a2[3], a3[3];		//basis vectors for the system
@@ -73,7 +73,10 @@ public:
 	//stuff for bond length distributions. bond lengths are calculated and stored in these vectors
 	std::vector<double> sisi_bondlengths;
 	std::vector<double> cc_bondlengths;
-
+	
+	bool is_crystal();				//checks to see if the system is the crystal
+	void read_contcar_crystal();			//reads the crystal's contcar
+	void write_crystal_SiC();			//writes out the crystal SiC density to a file
 	void get_name();                                //gets the name of the system
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	void write_header();				//writes the header file if one isnt already written
@@ -95,6 +98,16 @@ void Contcar::get_name() {
   std::ifstream fin;
   fin.open("NAME.txt");
   getline(fin, system_name);
+}
+
+bool Contcar::is_crystal() {
+	bool ok = true;
+	
+	std::ifstream fin;
+	fin.open("IS_CRYSTAL.txt");
+	if (!fin.open())
+		ok = false;
+	return ok;
 }
 
 bool Contcar::check_files() {
@@ -123,6 +136,100 @@ void Contcar::write_header() {
 		for (unsigned i = 1; i < 12; i++) { fout << i << "C, "; };
 		for (unsigned j = 1; j < 12; j++) { fout << j << "Si, "; };
 	}
+}
+
+
+void Contcar::read_contcar_crystal() {
+	std::ifstream fin;
+	fin.open("CONTCAR");
+	std::string d = "";
+	getline(fin, d);
+	fin >> lattice_constant;
+	fin >> a1[0] >> a1[1] >> a1[2];
+	fin >> a2[0] >> a2[1] >> a2[2];
+	fin >> a3[0] >> a3[1] >> a3[2];
+	fin >> types[0] >> types[1] >> types[2];
+	fin >> amounts[0] >> amounts[1] >> amounts[2];
+	fin >> coordinate_type;
+
+	Atom temp;
+	double x, y, z;
+
+	//reading in the first type of atom
+	char test = types[0][0];
+	for (int i = 0; i < amounts[0]; i++) {
+		fin >> x >> y >> z;
+		temp.set_xdirect(x);
+		temp.set_ydirect(y);
+		temp.set_zdirect(z);
+		temp.set_color(1);
+		switch (test)
+		{
+		case 'C':
+			carbons.push_back(temp);
+			break;
+		case 'S':
+			silicons.push_back(temp);
+			break;
+		case 'H':
+			hydrogens.push_back(temp);
+		default:
+			break;
+		}
+	}
+
+	//reading in the second type of atom
+	test = types[1][0];
+	for (int i = 0; i < amounts[1]; i++) {
+		fin >> x >> y >> z;
+		temp.set_xdirect(x);
+		temp.set_ydirect(y);
+		temp.set_zdirect(z);
+		temp.set_color(1);
+		switch (test)
+		{
+		case 'C':
+			carbons.push_back(temp);
+			break;
+		case 'S':
+			silicons.push_back(temp);
+			break;
+		case 'H':
+			hydrogens.push_back(temp);
+		default:
+			break;
+		}
+	}
+	
+	//set the cartesian coordinates for all of the atoms
+	for (unsigned i = 0; i < carbons.size(); i++) { carbons[i].set_cartesian(a1, a2, a3); }
+	for (unsigned j = 0; j < silicons.size(); j++) { silicons[j].set_cartesian(a1, a2, a3); }
+	
+	volume = a1[0] * (a2[1] * a3[2] - a2[2] * a3[1]) - a1[1] * (a2[0] * a3[2] - a2[2] * a3[0]) + a1[2] * (a2[0] * a3[1] - a2[1] * a3[0]);
+	volume = volume*pow(10.0, -24.0);
+	
+	double distance = 0;
+	
+	//setting SiC bond density
+	for (unsigned i = 0; i < silicons.size(); i++) {
+		for (unsigned j = 0; j < carbons.size(); j++) {
+			distance = find_distance(silicons[i], carbons[j]);
+			if (distance < SiC_bond_length && distance > 0.1) {
+				//silicons[i].partners.push_back(&carbons[j]);
+				//carbons[j].partners.push_back(&silicons[i]);
+				SiC = SiC + 1.0;
+			}
+		}
+	}
+	SiC_p = SiC * pow(10, -21) / volume;
+	
+}
+
+
+void Contcar write_crystal_SiC() {
+	std::ofstream fout;
+	fout.open("CRYSTAL.txt");
+	fout << SiC_p;
 }
 
 
