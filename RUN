@@ -23,6 +23,11 @@ cd ./..
 ./hello
 rm IS_CRYSTAL.txt
 
+# This next section is commented out. It provides an example of how the code should be run for a specific subset of models
+# built off of the crystal. You change the current working directory to the place where you are storing the model's data,
+# and copy it's NAME.txt, EIGENVAL, OSZICAR, and CONTCAR files to the directory where the Nano-Pore-Analyzer code is placed.
+# After the code is run using ./hello, CARBONS.vasp and SILICONS.vasp need to be moved to the model's directory, as seen below.
+
 #while($i < 13)
 #cd ./$i
 #echo "$PWD" > NAME.txt
