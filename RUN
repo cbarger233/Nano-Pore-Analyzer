@@ -12,6 +12,7 @@ set k = ~/work/group/codes/Nano-Pore-Analyzer
 set i = 1
 
 cd ./Crystal/
+echo "crystal" > IS_CRYSTAL.txt
 cp IS_CRYSTAL.txt ./..
 cp EIGENVAL ./..
 cp OSZICAR ./..
