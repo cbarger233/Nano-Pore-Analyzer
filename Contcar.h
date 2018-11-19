@@ -65,14 +65,18 @@ public:
 	//statistical info
 	double mean_SiSi = 0;	//mean Si-Si bond length
 	double mean_CC = 0;
+	double mean_SiC = 0;
 	double MAD_SiSi = 0;	//mean average deviation of the SiSi bonds
 	double MAD_CC = 0;
+	double MAD_SiC = 0;
 	double STD_SiSi = 0;	//standard deviation of the SiSi bonds
 	double STD_CC = 0;
+	double STD_SiC = 0;
 
 	//stuff for bond length distributions. bond lengths are calculated and stored in these vectors
 	std::vector<double> sisi_bondlengths;
 	std::vector<double> cc_bondlengths;
+	std::vector<double> sic_bondlengths;
 	
 	bool is_crystal();				//checks to see if the system is the crystal
 	void read_contcar_crystal();			//reads the crystal's contcar
@@ -389,6 +393,7 @@ void Contcar::get_bond_densities() {
 			if (distance < SiC_bond_length && distance > 0.1) {
 				//silicons[i].partners.push_back(&carbons[j]);
 				//carbons[j].partners.push_back(&silicons[i]);
+				sic_bondlengths.push_back(distance);
 				SiC = SiC + 1.0;
 			}
 		}
@@ -687,6 +692,41 @@ void Contcar::get_bond_lengths() {
 			sum += pow((cc_bondlengths[i] - mean_CC), 2);
 		}
 		STD_CC = pow(sum / (cc_bondlengths.size() - 1), 0.5);
+	}
+	
+	
+	/***********************************************************************************
+	************************************************************************************
+	************************************************************************************/
+	//for the SiC bonds
+	if (sic_bondlengths.size() > 0) {
+		double total = 0;
+		double low = 5;
+		double high = 0;
+		for (unsigned i = 0; i < sic_bondlengths.size(); i++) {
+			total += sic_bondlengths[i];
+			if (sic_bondlengths[i] > high)
+				high = sic_bondlengths[i];
+			if sic_bondlengths[i] < low)
+				low = sic_bondlengths[i];
+		}
+		mean_SiC = total / sic_bondlengths.size();
+		double sum = 0;
+		double num = 0;
+		for (unsigned i = 0; i < sic_bondlengths.size(); i++) {
+		  num = sic_bondlengths[i] - mean_SiC;
+		  if (num < 0) {
+		    num = num*(-1);
+		  }
+		  sum += num;
+		}
+		MAD_SiC = sum / sic_bondlengths.size();
+		sum = 0;
+
+		for (unsigned i = 0; i < sic_bondlengths.size(); i++) {
+			sum += pow((sic_bondlengths[i] - mean_SiC), 2);
+		}
+		STD_SiC = pow(sum / (sic_bondlengths.size() - 1), 0.5);
 	}
 }
 
