@@ -707,7 +707,7 @@ void Contcar::get_bond_lengths() {
 			total += sic_bondlengths[i];
 			if (sic_bondlengths[i] > high)
 				high = sic_bondlengths[i];
-			if sic_bondlengths[i] < low)
+			if (sic_bondlengths[i] < low)
 				low = sic_bondlengths[i];
 		}
 		mean_SiC = total / sic_bondlengths.size();
