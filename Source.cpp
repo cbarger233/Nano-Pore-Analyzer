@@ -19,6 +19,7 @@ int main() {
 		C.get_band_gap();
 		C.get_free_energy();
 		C.get_cluster_sizes();
+		C.get_bond_lengths();
 		C.write_data();
 	}
 	else if (C.check_files()) {
