@@ -55,6 +55,9 @@ public:
 
 	//free energy of the system
 	double free_e = 0;
+	
+	//boolean variable to see if there are coordination defects
+	bool coordination_defect = FALSE;
 
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
@@ -86,6 +89,7 @@ public:
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	void write_header();				//writes the header file if one isnt already written
 	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
+	bool get_coordination();			//function to find coordination defects
 	void get_bond_densities();			//calculates the bond densities in the system
 	void get_atomic_percents();			//calculates atomic percents
 	void get_density();				//calculates the desnity of the system
@@ -377,6 +381,43 @@ double Contcar::find_distance(Atom one, Atom two) {
 	return distance;
 }
 
+bool Contcar::find_coordination() {
+	int bonds = 0;
+	double distance = 0;
+	
+	for (unsigned i = 0; i < carbons.size(); i++) {
+		for (unsigned j = 0; j < silicons.size(); j++) {
+			for (unsigned k = 0; k < hydrogens.size(); k++) {
+				distance = find_distance(silicons[j], carbons[i]);
+				if (distance < SiC_bond_length && distance > 0.1)
+					bonds++;
+				distance = find_distance(carbons[i], hydrogens[k]);
+				if (distance < CH_bond_length && distance > 0.1)
+					bonds++;
+			}
+		}
+		if (bonds < 4)
+			return TRUE;
+		bonds = 0;
+	}
+	
+	
+	for (unsigned i = 0; i < silicons.size(); i++) {
+		for (unsigned j = 0; j < carbons.size(); j++) {
+			for (unsigned k = 0; k < hydrogens.size(); k++) {
+				distance = find_distance(silicons[i], carbons[j]);
+				if (distance < SiC_bond_length && distance > 0.1)
+					bonds++;
+				distance = find_distance(silicons[i], hydrogens[k]);
+				if (distance < SiH_bond_length && distance > 0.1)
+					bonds++;
+			}
+		}
+		if (bonds < 4)
+			return TRUE;
+		bonds = 0;
+	}
+}
 //function to get the bond densities
 //we use nested for-loops that loop over each type of atom
 //and calculates the distance between them in the process
