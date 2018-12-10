@@ -89,7 +89,7 @@ public:
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	void write_header();				//writes the header file if one isnt already written
 	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
-	bool get_coordination();			//function to find coordination defects
+	void get_coordination();			//function to find coordination defects
 	void get_bond_densities();			//calculates the bond densities in the system
 	void get_atomic_percents();			//calculates atomic percents
 	void get_density();				//calculates the desnity of the system
@@ -381,7 +381,7 @@ double Contcar::find_distance(Atom one, Atom two) {
 	return distance;
 }
 
-bool Contcar::find_coordination() {
+void Contcar::find_coordination() {
 	int bonds = 0;
 	double distance = 0;
 	
@@ -397,7 +397,7 @@ bool Contcar::find_coordination() {
 			}
 		}
 		if (bonds < 4)
-			return TRUE;
+			coordination_defect = TRUE;
 		bonds = 0;
 	}
 	
@@ -414,7 +414,7 @@ bool Contcar::find_coordination() {
 			}
 		}
 		if (bonds < 4)
-			return TRUE;
+			coordination_defect TRUE;
 		bonds = 0;
 	}
 }
