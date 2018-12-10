@@ -57,7 +57,7 @@ public:
 	double free_e = 0;
 	
 	//boolean variable to see if there are coordination defects
-	bool coordination_defect = FALSE;
+	bool coordination_defect = false;
 
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
@@ -397,7 +397,7 @@ void Contcar::find_coordination() {
 			}
 		}
 		if (bonds < 4)
-			coordination_defect = TRUE;
+			coordination_defect = true;
 		bonds = 0;
 	}
 	
@@ -414,7 +414,7 @@ void Contcar::find_coordination() {
 			}
 		}
 		if (bonds < 4)
-			coordination_defect TRUE;
+			coordination_defect = true;
 		bonds = 0;
 	}
 }
