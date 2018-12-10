@@ -20,6 +20,7 @@ int main() {
 		C.get_free_energy();
 		C.get_cluster_sizes();
 		C.get_bond_lengths();
+		C.get_coordination();
 		C.write_data();
 	}
 	else if (C.check_files()) {
@@ -36,6 +37,7 @@ int main() {
 		C.get_band_gap();
 		C.get_free_energy();
 		C.get_bond_lengths();
+		C.get_coordination();
 		C.write_data();
 		C.write_carbon_cluster();
 		C.write_silicon_cluster();
