@@ -381,7 +381,7 @@ double Contcar::find_distance(Atom one, Atom two) {
 	return distance;
 }
 
-void Contcar::find_coordination() {
+void Contcar::get_coordination() {
 	int bonds = 0;
 	double distance = 0;
 	
