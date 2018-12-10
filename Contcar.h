@@ -55,6 +55,9 @@ public:
 
 	//free energy of the system
 	double free_e = 0;
+	
+	//boolean variable to see if there are coordination defects
+	bool coordination_defect = FALSE;
 
 	//vectors of cluster sizes
 	std::vector<int> silicon_cluster_sizes;
@@ -86,6 +89,7 @@ public:
 	bool check_files();				//checks to see if all of the necessary files can be opened and looked at
 	void write_header();				//writes the header file if one isnt already written
 	double find_distance(Atom one, Atom two);	//calculates the distance between two atoms
+	void get_coordination();			//function to find coordination defects
 	void get_bond_densities();			//calculates the bond densities in the system
 	void get_atomic_percents();			//calculates atomic percents
 	void get_density();				//calculates the desnity of the system
@@ -139,7 +143,7 @@ void Contcar::write_header() {
 	if (!fin.is_open()) {
 		std::ofstream fout;
 		fout.open("DATA.csv");
-		fout << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, Mean SiC Length, MAD SiC, STD SiC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
+		fout << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, Mean SiC Length, MAD SiC, STD SiC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, Coordination_Defects";
 		for (unsigned i = 1; i < 12; i++) { fout << i << "C, "; };
 		for (unsigned j = 1; j < 12; j++) { fout << j << "Si, "; };
 	}
@@ -377,6 +381,43 @@ double Contcar::find_distance(Atom one, Atom two) {
 	return distance;
 }
 
+void Contcar::find_coordination() {
+	int bonds = 0;
+	double distance = 0;
+	
+	for (unsigned i = 0; i < carbons.size(); i++) {
+		for (unsigned j = 0; j < silicons.size(); j++) {
+			for (unsigned k = 0; k < hydrogens.size(); k++) {
+				distance = find_distance(silicons[j], carbons[i]);
+				if (distance < SiC_bond_length && distance > 0.1)
+					bonds++;
+				distance = find_distance(carbons[i], hydrogens[k]);
+				if (distance < CH_bond_length && distance > 0.1)
+					bonds++;
+			}
+		}
+		if (bonds < 4)
+			coordination_defect = TRUE;
+		bonds = 0;
+	}
+	
+	
+	for (unsigned i = 0; i < silicons.size(); i++) {
+		for (unsigned j = 0; j < carbons.size(); j++) {
+			for (unsigned k = 0; k < hydrogens.size(); k++) {
+				distance = find_distance(silicons[i], carbons[j]);
+				if (distance < SiC_bond_length && distance > 0.1)
+					bonds++;
+				distance = find_distance(silicons[i], hydrogens[k]);
+				if (distance < SiH_bond_length && distance > 0.1)
+					bonds++;
+			}
+		}
+		if (bonds < 4)
+			coordination_defect TRUE;
+		bonds = 0;
+	}
+}
 //function to get the bond densities
 //we use nested for-loops that loop over each type of atom
 //and calculates the distance between them in the process
@@ -623,7 +664,7 @@ void Contcar::write_data() {
 	os << 0 << std::endl;
 
 	//wrting out the actual numerical values
-	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC << ", " << mean_SiC << ", " << MAD_SiC << ", " << STD_SiC << ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", ";
+	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC << ", " << mean_SiC << ", " << MAD_SiC << ", " << STD_SiC << ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", " << coordination_defect << ", ";
 	for (unsigned i = 1; i < 12; i++) { os << carbon_clusters[i] << ", "; };
 	for (unsigned j = 1; j < 12; j++) { os << silicon_clusters[j] << ", "; };
 
