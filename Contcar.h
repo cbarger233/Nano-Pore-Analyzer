@@ -143,7 +143,7 @@ void Contcar::write_header() {
 	if (!fin.is_open()) {
 		std::ofstream fout;
 		fout.open("DATA.csv");
-		fout << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, Mean SiC Length, MAD SiC, STD SiC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, ";
+		fout << "Name, Band Gap (eV), n*_SiC, n_CH, n_SiH, n_SiSi, n_CC, SiC density, CH density, SiH density, SiSi density, CC density, HH density, Mean SiSi Length, MAD SiSi, STD SiSi, Mean CC Length, MAD CC, STD CC, Mean SiC Length, MAD SiC, STD SiC, %C, %Si, %H, Density(g/cm^3), Volume(cm^3), Free Energy, Coordination_Defects";
 		for (unsigned i = 1; i < 12; i++) { fout << i << "C, "; };
 		for (unsigned j = 1; j < 12; j++) { fout << j << "Si, "; };
 	}
@@ -664,7 +664,7 @@ void Contcar::write_data() {
 	os << 0 << std::endl;
 
 	//wrting out the actual numerical values
-	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC << ", " << mean_SiC << ", " << MAD_SiC << ", " << STD_SiC << ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", ";
+	os << system_name << ", " << band_gap << ", " << n_SiC << ", " << n_CH << ", " << n_SiH << ", " << n_SiSi << ", " << n_CC << ", " << SiC_p << ", " << CH_p << ", " << SiH_p << ", " << SiSi_p << ", " << CC_p << ", " << HH_p << ", " << mean_SiSi << ", " << MAD_SiSi << ", "  << STD_SiSi << ", " << mean_CC << ", " << MAD_CC << ", " << STD_CC << ", " << mean_SiC << ", " << MAD_SiC << ", " << STD_SiC << ", " << percentC << ", " << percentSi << ", " << percentH << ", " << density << ", " << volume << ", " << free_e << ", " << coordination_defect << ", ";
 	for (unsigned i = 1; i < 12; i++) { os << carbon_clusters[i] << ", "; };
 	for (unsigned j = 1; j < 12; j++) { os << silicon_clusters[j] << ", "; };
 
