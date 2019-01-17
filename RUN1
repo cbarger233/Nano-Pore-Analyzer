@@ -1,0 +1,160 @@
+#!/bin/csh
+#This is an example C shell script used to run the Nano-Pore-Analyzer code
+# This C shell script is placed in a directory where
+# several subdirectories include VASP output files to be used.
+#The script copies the EIGENVAL, OSZICAR, and CONTCAR VASP files along with NAME.txt from
+#the directories, and then runs the code using "./hello"
+#The data is written out to "DATA.csv" and the cluster files in POSCAR format are moved back to the
+#crystal's directory
+
+set j = $PWD
+set k = ~/work/group_work/codes/Nano-Pore-Analyzer
+set r = ~/work/group_work/results
+set i = 1
+set S = "S"
+set C = "C"
+
+cd ./Crystal/
+cp IS_CRYSTAL.txt ./..
+cp EIGENVAL ./..
+cp OSZICAR ./..
+cp CONTCAR ./..
+echo "$PWD" > NAME.txt
+cp NAME.txt ./..
+cd ./..
+./hello
+rm IS_CRYSTAL.txt
+
+while($i < 11)
+cd r
+cd CH_models/$i
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 14)
+cd r
+cd SiH_models/$i
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 17)
+cd r
+cd Mixed/$i
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 25)
+cd r
+cd SS_models/72CH_Si_surf/$i$S
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 18)
+cd r
+cd SS_models/68HMixed_Si_surf/$i$S
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 21)
+cd r
+cd SS_models/76HMixed_Si_bulk/$i$S
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 14)
+cd r
+cd CC_models/72Mixed_surf_CC/$i
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+set i = 1
+
+while($i < 18)
+cd r
+cd CC_models/76Mixed_bulk_CC/$i$C
+echo "$PWD" > NAME.txt
+cp NAME.txt $k/.
+cp EIGENVAL $k/.
+cp OSZICAR $k/.
+cp CONTCAR $k/.
+cd $k
+./hello
+@ i++
+end
+
+#while($i < 13)
+#cd ./$i
+#echo "$PWD" > NAME.txt
+#cp NAME.txt $k/.
+#cp EIGENVAL $k/.
+#cp OSZICAR $k/.
+#cp CONTCAR $k/.
+#cd $k
+#./hello
+#mv CARBONS.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
+#mv SILICON.vasp ./../../results/CC_models/72Mixed_surf_CC/$i
+#@ i++
+#end
+#mv DATA.csv $j/.
+
