@@ -36,7 +36,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/CH_models/$i
+mv DEFECTS.txt ~/work/group_work/results/CH_models/$i
 @ i++
 end
 
@@ -52,7 +52,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/SiH_models/$i
+mv DEFECTS.txt ~/work/group_work/results/SiH_models/$i
 @ i++
 end
 
@@ -68,7 +68,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/Mixed/$i
+mv DEFECTS.txt ~/work/group_work/results/Mixed/$i
 @ i++
 end
 
@@ -84,7 +84,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/SS_models/72CH_Si_surf/$i$S
+mv DEFECTS.txt ~/work/group_work/results/SS_models/72CH_Si_surf/$i$S
 @ i++
 end
 
@@ -100,7 +100,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/SS_models/68HMixed_Si_surf/$i$S
+mv DEFECTS.txt ~/work/group_work/results/SS_models/68HMixed_Si_surf/$i$S
 @ i++
 end
 
@@ -116,7 +116,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/SS_models/76HMixed_Si_bulk/$i$S
+mv DEFECTS.txt ~/work/group_work/results/SS_models/76HMixed_Si_bulk/$i$S
 @ i++
 end
 
@@ -132,7 +132,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/CC_models/72Mixed_surf_CC/$i
+mv DEFECTS.txt ~/work/group_work/results/CC_models/72Mixed_surf_CC/$i
 @ i++
 end
 
@@ -148,7 +148,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
-mv DEFECTS.txt r/CC_models/76Mixed_bulk_CC/$i$C
+mv DEFECTS.txt ~/work/group_work/results/CC_models/76Mixed_bulk_CC/$i$C
 @ i++
 end
 
