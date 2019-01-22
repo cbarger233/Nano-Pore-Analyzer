@@ -26,7 +26,7 @@ public:
 	void add_partner(Atom &a);
 	int get_number() {return number;}
 	void set_number(int x) {number = x;}
-	void tally_bond() {bonds++;}
+
 
 	//vector of Atoms that are the neighbors of a certain Atom
 	std::vector<Atom*> partners;
@@ -35,8 +35,8 @@ public:
 	//color for the dfs cluster size algorithm
 	int color = 1;
 	int number = 0;
-	int bonds = 0;
 	std::string type;
+	bool coordination_defect = false;
 
 	//coordinates for the atom
 	double x_cartesian, x_direct;
