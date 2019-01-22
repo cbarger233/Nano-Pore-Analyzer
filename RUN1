@@ -23,6 +23,7 @@ echo "$PWD" > NAME.txt
 cp NAME.txt ./..
 cd ./..
 ./hello
+mv DEFECTS.txt ./Crystal/
 rm IS_CRYSTAL.txt
 
 while($i < 11)
@@ -35,6 +36,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/CH_models/$i
 @ i++
 end
 
@@ -50,6 +52,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/SiH_models/$i
 @ i++
 end
 
@@ -65,6 +68,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/Mixed/$i
 @ i++
 end
 
@@ -80,6 +84,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/SS_models/72CH_Si_surf/$i$S
 @ i++
 end
 
@@ -95,6 +100,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/SS_models/68HMixed_Si_surf/$i$S
 @ i++
 end
 
@@ -110,6 +116,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/SS_models/76HMixed_Si_bulk/$i$S
 @ i++
 end
 
@@ -125,6 +132,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/CC_models/72Mixed_surf_CC/$i
 @ i++
 end
 
@@ -140,6 +148,7 @@ cp OSZICAR $k/.
 cp CONTCAR $k/.
 cd $k
 ./hello
+mv DEFECTS.txt r/CC_models/76Mixed_bulk_CC/$i$C
 @ i++
 end
 
