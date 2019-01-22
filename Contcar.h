@@ -174,6 +174,7 @@ void Contcar::read_contcar_crystal() {
 		temp.set_ydirect(y);
 		temp.set_zdirect(z);
 		temp.set_color(1);
+		temp.set_number(i+1);
 		switch (test)
 		{
 		case 'C':
@@ -197,6 +198,7 @@ void Contcar::read_contcar_crystal() {
 		temp.set_ydirect(y);
 		temp.set_zdirect(z);
 		temp.set_color(1);
+		temp.set_number(i+1);
 		switch (test)
 		{
 		case 'C':
@@ -275,6 +277,7 @@ void Contcar::read_contcar() {
 		temp.set_ydirect(y);
 		temp.set_zdirect(z);
 		temp.set_color(1);
+		temp.set_number(i+1);
 		switch (test)
 		{
 		case 'C':
@@ -298,6 +301,7 @@ void Contcar::read_contcar() {
 		temp.set_ydirect(y);
 		temp.set_zdirect(z);
 		temp.set_color(1);
+		temp.set_number(i+1);
 		switch (test)
 		{
 		case 'C':
@@ -321,6 +325,7 @@ void Contcar::read_contcar() {
 		temp.set_ydirect(y);
 		temp.set_zdirect(z);
 		temp.set_color(1);
+		temp.set_number(i+1);
 		switch (test)
 		{
 		case 'C':
@@ -403,12 +408,14 @@ void Contcar::get_coordination() {
 				}
 			}
 		}
-		if (bonds != 4)
+		if (bonds != 4) {
 			coordination_defect = true;
+			carbons[i].coordination_defect = true;
+		}
 		bonds = 0;
 	}
 	
-	//checking all of the silicon atos for coordination defects
+	//checking all of the silicon atoms for coordination defects
 	for (unsigned i = 0; i < silicons.size(); i++) {
 		for (unsigned j = 0; j < carbons.size(); j++) {
 			for (unsigned k = 0; k < hydrogens.size(); k++) {
@@ -426,8 +433,10 @@ void Contcar::get_coordination() {
 				}
 			}
 		}
-		if (bonds != 4)
+		if (bonds != 4) {
 			coordination_defect = true;
+			silicons[i].coordination_defect = true;
+		}
 		bonds = 0;
 	}
 }
