@@ -12,7 +12,7 @@ const double SiC_bond_length = 2.24;	//maximum bond length between silicon and c
 const double CH_bond_length = 1.2;	//maximum bond length between carbon and hydrogen atoms
 const double SiH_bond_length = 1.6;	//etc
 const double CC_bond_length = 1.9;
-const double SiSi_bond_length = 2.7;
+const double SiSi_bond_length = 2.5;
 const double HH_bond_length = 1.0;
 const double mass_H = 1.00797;		//mass of a hydrogen atom in amu, used in density calculation
 const double mass_C = 12.011;
@@ -101,6 +101,7 @@ public:
 	void get_free_energy();				//function that calculates the free energy of the system
 	void write_data();				//writes the data out to the header file
 	void get_bond_lengths();			//calculates the bond lengths
+	void write_defects();				//if the system has coordination dfects, this function writes out which atoms cause it
 };
 
 void Contcar::get_name() {
@@ -791,6 +792,21 @@ void Contcar::get_bond_lengths() {
 		}
 		STD_SiC = pow(sum / (sic_bondlengths.size() - 1), 0.5);
 	}
+}
+
+void Contcar::write_defects() {
+	std::ofstream fout;
+	fout.open("DEFECTS.txt");
+	for (unsigned i = 0; i < silicons.size(); i++) {
+		if (silicons[i].coordination_defect)
+			fout << "Si " << silicons[i].get_number() << std::endl;
+	}
+	
+	for (unsigned i = 0; i < carbons.size(); i++) {
+		if (carbons[i].coordination_defect)
+			fout << "C  " << carbons[i].get_number() << std::endl;
+	}
+	fout.close();
 }
 
 #endif
