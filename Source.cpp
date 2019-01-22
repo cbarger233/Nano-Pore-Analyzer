@@ -22,6 +22,7 @@ int main() {
 		C.get_bond_lengths();
 		C.get_coordination();
 		C.write_data();
+		C.write_defects();
 	}
 	else if (C.check_files()) {
 	        C.get_name();
@@ -41,6 +42,7 @@ int main() {
 		C.write_data();
 		C.write_carbon_cluster();
 		C.write_silicon_cluster();
+		C.write_defects();
 	}
 	
 	else {
