@@ -394,21 +394,23 @@ void Contcar::get_coordination() {
 	//checking all of the carbon atoms for coordination defects
 	for (unsigned i = 0; i < carbons.size(); i++) {
 		for (unsigned j = 0; j < silicons.size(); j++) {
-			distance = find_distance(silicons[j], carbons[i]);
+			distance = find_distance(carbons[i], silicons[j]);
 			if (distance < SiC_bond_length && distance > 0.1)
 				bonds++;
-			for (unsigned k = 0; k < hydrogens.size(); k++) {
-				distance = find_distance(carbons[i], hydrogens[k]);
-					if (distance < CH_bond_length && distance > 0.1)
-						bonds++;
-				for (unsigned z = 0; z < carbons.size(); z++) {
-					if (i != z)
-						distance = find_distance(carbons[i], carbons[z]);
-					if (distance < CC_bond_length && distance > 0.1)
-						bonds++;
-				}
-			}
 		}
+		
+		for (unsigned k = 0; k < hydrogens.size(); k++) {
+			distance = find_distance(carbons[i], hydrogens[k]);
+			if (distance < CH_bond_length && distance > 0.1)
+				bonds++;
+		}
+		
+		for (unsigned z = 0; z < carbons.size(); z++) {
+			distance = find_distance(carbons[i], carbons[z]);
+			if (distance < CC_bond_length && distance > 0.1)
+				bonds++;
+		}
+		
 		if (bonds != 4) {
 			coordination_defect = true;
 			carbons[i].coordination_defect = true;
@@ -420,20 +422,22 @@ void Contcar::get_coordination() {
 	for (unsigned i = 0; i < silicons.size(); i++) {
 		for (unsigned j = 0; j < carbons.size(); j++) {
 			distance = find_distance(silicons[i], carbons[j]);
-					if (distance < SiC_bond_length && distance > 0.1)
-						bonds++;
-			for (unsigned k = 0; k < hydrogens.size(); k++) {
-				distance = find_distance(silicons[i], hydrogens[k]);
-					if (distance < SiH_bond_length && distance > 0.1)
-						bonds++;
-				for (unsigned z = 0; z < silicons.size(); z++) {
-					if (i != z)
-						distance = find_distance(silicons[i], silicons[z]);
-					if (distance < SiSi_bond_length && distance > 0.1)
-						bonds++;
-				}
-			}
+			if (distance < SiC_bond_length && distance > 0.1)
+				bonds++;
 		}
+		
+		for (unsigned k = 0; k < hydrogens.size(); k++) {
+			distance = find_distance(silicons[i], hydrogens[k]);
+			if (distance < SiH_bond_length && distance > 0.1)
+				bonds++;
+		}
+		
+		for (unsigned z = 0; z < silicons.size(); z++) {
+			distance = find_distance(silicons[i], silicons[z]);
+			if (distance < SiSi_bond_length && distance > 0.1)
+				bonds++;
+		}
+		
 		if (bonds != 4) {
 			coordination_defect = true;
 			silicons[i].coordination_defect = true;
