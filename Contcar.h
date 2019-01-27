@@ -9,10 +9,10 @@
 
 //constant for calculating bond length
 const double SiC_bond_length = 2.24;	//maximum bond length between silicon and carbon atoms
-const double CH_bond_length = 1.2;	//maximum bond length between carbon and hydrogen atoms
-const double SiH_bond_length = 1.6;	//etc
+const double CH_bond_length = 1.25;	//maximum bond length between carbon and hydrogen atoms
+const double SiH_bond_length = 1.7;	//etc
 const double CC_bond_length = 1.9;
-const double SiSi_bond_length = 2.5;
+const double SiSi_bond_length = 2.6;
 const double HH_bond_length = 1.0;
 const double mass_H = 1.00797;		//mass of a hydrogen atom in amu, used in density calculation
 const double mass_C = 12.011;
