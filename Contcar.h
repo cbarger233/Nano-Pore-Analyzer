@@ -395,20 +395,26 @@ void Contcar::get_coordination() {
 	for (unsigned i = 0; i < carbons.size(); i++) {
 		for (unsigned j = 0; j < silicons.size(); j++) {
 			distance = find_distance(carbons[i], silicons[j]);
-			if (distance < SiC_bond_length && distance > 0.1)
+			if (distance < SiC_bond_length && distance > 0.1) {
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		for (unsigned k = 0; k < hydrogens.size(); k++) {
 			distance = find_distance(carbons[i], hydrogens[k]);
-			if (distance < CH_bond_length && distance > 0.1)
+			if (distance < CH_bond_length && distance > 0.1) {
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		for (unsigned z = 0; z < carbons.size(); z++) {
 			distance = find_distance(carbons[i], carbons[z]);
-			if (distance < CC_bond_length && distance > 0.1)
+			if (distance < CC_bond_length && distance > 0.1){
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		if (bonds != 4) {
@@ -422,20 +428,26 @@ void Contcar::get_coordination() {
 	for (unsigned i = 0; i < silicons.size(); i++) {
 		for (unsigned j = 0; j < carbons.size(); j++) {
 			distance = find_distance(silicons[i], carbons[j]);
-			if (distance < SiC_bond_length && distance > 0.1)
+			if (distance < SiC_bond_length && distance > 0.1){
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		for (unsigned k = 0; k < hydrogens.size(); k++) {
 			distance = find_distance(silicons[i], hydrogens[k]);
-			if (distance < SiH_bond_length && distance > 0.1)
+			if (distance < SiH_bond_length && distance > 0.1){
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		for (unsigned z = 0; z < silicons.size(); z++) {
 			distance = find_distance(silicons[i], silicons[z]);
-			if (distance < SiSi_bond_length && distance > 0.1)
+			if (distance < SiSi_bond_length && distance > 0.1){
 				bonds++;
+				carbons[i].bonds++;
+			}
 		}
 		
 		if (bonds != 4) {
