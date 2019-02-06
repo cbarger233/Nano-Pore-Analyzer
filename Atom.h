@@ -35,6 +35,7 @@ public:
 	//color for the dfs cluster size algorithm
 	int color = 1;
 	int number = 0;
+	int bonds = 0;
 	std::string type;
 	bool coordination_defect = false;
 
