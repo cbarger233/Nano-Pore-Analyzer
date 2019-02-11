@@ -815,12 +815,12 @@ void Contcar::write_defects() {
 	fout.open("DEFECTS.txt");
 	for (unsigned i = 0; i < silicons.size(); i++) {
 		if (silicons[i].coordination_defect)
-			fout << "Si " << silicons[i].get_number() << "   Bonds: " << silicons[i].bonds << std::endl;
+			fout << "Si " << silicons[i].get_number() << "   Bonds: " << silicons[i].get_bonds() << std::endl;
 	}
 	
 	for (unsigned i = 0; i < carbons.size(); i++) {
 		if (carbons[i].coordination_defect)
-			fout << "C  " << carbons[i].get_number() << "   Bonds: " << carbons[i].bonds << std::endl;
+			fout << "C  " << carbons[i].get_number() << "   Bonds: " << carbons[i].get_bonds() << std::endl;
 	}
 	fout.close();
 }
