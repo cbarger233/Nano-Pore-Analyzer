@@ -397,7 +397,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(carbons[i], silicons[j]);
 			if (distance < SiC_bond_length && distance > 0.1) {
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -405,7 +404,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(carbons[i], hydrogens[k]);
 			if (distance < CH_bond_length && distance > 0.1) {
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -413,7 +411,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(carbons[i], carbons[z]);
 			if (distance < CC_bond_length && distance > 0.1){
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -421,6 +418,7 @@ void Contcar::get_coordination() {
 			coordination_defect = true;
 			carbons[i].coordination_defect = true;
 		}
+		silicons[i].bonds = bonds;
 		bonds = 0;
 	}
 	
@@ -430,7 +428,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(silicons[i], carbons[j]);
 			if (distance < SiC_bond_length && distance > 0.1){
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -438,7 +435,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(silicons[i], hydrogens[k]);
 			if (distance < SiH_bond_length && distance > 0.1){
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -446,7 +442,6 @@ void Contcar::get_coordination() {
 			distance = find_distance(silicons[i], silicons[z]);
 			if (distance < SiSi_bond_length && distance > 0.1){
 				bonds++;
-				carbons[i].bonds++;
 			}
 		}
 		
@@ -454,6 +449,7 @@ void Contcar::get_coordination() {
 			coordination_defect = true;
 			silicons[i].coordination_defect = true;
 		}
+		carbons[i].bonds = bonds;
 		bonds = 0;
 	}
 }
