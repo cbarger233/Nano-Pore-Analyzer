@@ -25,6 +25,7 @@ public:
 	void set_color(int x) { color = x; }
 	void add_partner(Atom &a);
 	int get_number() {return number;}
+	int get_bonds() {return bonds;}
 	void set_number(int x) {number = x;}
 
 
